@@ -10,4 +10,10 @@ export const resolvers = {
             return db.categories.find((pd) => pd.id === args.categoryId);
         },
     },
+    Product: {
+        category: (parants, args, context) => {
+            const result = db.categories.find((category) => category.id === parants.categoreId);
+            return result;
+        },
+    },
 };
