@@ -1,43 +1,40 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { db } from "./db.js";
 
 const typeDefs = `#graphql
 
-  type Book {
-    title: String
-    author: String
+  type Product{
+    id: ID!
+    name: String
+    image: String
+    description: String
+    price: Float
+    quantity: Int
+    instock: Boolean
+    category: String
   }
 
   type Query {
-    books: [Book]
+    products: [Product]
+    product(productId: ID!) : Product
   }
 `;
 
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-  },
-];
-
-
 const resolvers = {
   Query: {
-    books: () => books,
+    products: () => db.products,
+    product: (parants: any, args: {productId: string}, context: any) => {
+      const result = db.products.find(pd => pd.id === args.productId)
+      return result; 
+    }
   },
 };
-
-
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
-
 
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
