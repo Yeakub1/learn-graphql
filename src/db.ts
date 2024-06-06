@@ -56,6 +56,30 @@ const products = [
   },
 ];
 
+const categories = [
+  {
+    "id": "1",
+    "name": "storts",
+  },
+  {
+    "id": "2",
+    "name": "Mobile",
+  },
+  {
+    "id": "3",
+    "name": "Programming",
+  },
+  {
+    "id": "4",
+    "name": "development",
+  },
+  {
+    "id": "5",
+    "name": "gamming",
+  },
+]
+
 export const db = {
   products,
+  categories,
 };
