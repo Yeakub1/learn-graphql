@@ -12,9 +12,15 @@ export const resolvers = {
     },
   },
   Product: {
-    category: (parants: any, args: any, context: any) => {
-      const result = db.categories.find((category) => category.id === parants.categoreId);
-      return result;
+    category: (parants: { categoreId: string }, args: any, context: any) => {
+      return db.categories.find(
+        (category) => category.id === parants.categoreId
+      );
+    },
+  },
+  Category: {
+    products: (parants: any, args: any, context: any) => {
+      return db.products.filter(product => product.categoreId === parants.id);
     },
   },
 };
