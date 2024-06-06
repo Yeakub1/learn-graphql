@@ -2,22 +2,26 @@ import { db } from "../../db.js";
 export const resolvers = {
     Query: {
         products: () => db.products,
-        product: (parants, args, context) => {
+        product: (parent, args, context) => {
             return db.products.find((pd) => pd.id === args.productId);
         },
         categories: () => db.categories,
-        category: (parants, args, context) => {
-            return db.categories.find((pd) => pd.id === args.categoryId);
+        category: (parent, args, context) => {
+            return db.categories.find((category) => category.id === args.categoryId);
         },
     },
     Product: {
-        category: (parants, args, context) => {
-            return db.categories.find((category) => category.id === parants.categoreId);
+        category: ({ categoryId }, args, context) => {
+            // console.log(parent.categoryId)
+            return db.categories.find((category) => category.id === categoryId);
+        },
+        reviews: ({ id }, args, context) => {
+            return db.reviews.filter((review) => review.productId === id);
         },
     },
     Category: {
-        products: (parants, args, context) => {
-            return db.products.filter(product => product.categoreId === parants.id);
+        products: ({ id }, args, context) => {
+            return db.products.filter((product) => product.categoryId === id);
         },
     },
 };
